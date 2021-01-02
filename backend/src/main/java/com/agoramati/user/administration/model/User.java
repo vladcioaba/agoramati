@@ -1,4 +1,4 @@
-package com.project.user.administration.model;
+package com.agoramati.user.administration.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

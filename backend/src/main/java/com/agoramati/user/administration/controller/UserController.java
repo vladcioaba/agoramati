@@ -1,14 +1,13 @@
-package com.project.user.administration.controller;
+package com.agoramati.user.administration.controller;
 
-import com.project.user.administration.services.UserService;
-import com.project.user.administration.vo.UserAuthorizeResponseVo;
-import com.project.user.administration.vo.UserRequestVo;
-import com.project.user.administration.vo.UserTokenResponseVo;
+import com.agoramati.user.administration.vo.UserAuthorizeResponseVo;
+import com.agoramati.user.administration.vo.UserTokenResponseVo;
+import com.agoramati.user.administration.services.UserService;
+import com.agoramati.user.administration.vo.UserRequestVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController

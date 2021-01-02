@@ -1,8 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 //import { ILoadedEventArgs, ChartTheme } from '@syncfusion/ej2-angular-charts';
+import { interval, Observable } from "rxjs";
+import {first, startWith, switchMap} from "rxjs/operators";
 
 
-import { Chart, LineSeries, Category } from '@syncfusion/ej2-charts';
+import { QuoteService } from '../services/quote.service';
+import { ChartComponent } from '@syncfusion/ej2-angular-charts';
 
 //import { StockChart } from '@syncfusion/ej2-charts';
 //import { DateTime, SplineSeries } from '@syncfusion/ej2-charts';
@@ -2317,8 +2320,11 @@ let stockChart: StockChart = new StockChart({
 @Component({selector: 'linechart', templateUrl: 'linechart.component.html', styleUrls: [ './linechart.component.css' ] })
 export class LinechartComponent implements OnInit {
   @Input() data: any;
-
-  constructor() {
+  @ViewChild('chart')
+  public chart: ChartComponent;
+  
+  constructor(private quoteService: QuoteService) {
+    
   };
 
   public symbol!:String
@@ -2333,7 +2339,7 @@ export class LinechartComponent implements OnInit {
 
     this.symbol = '' + Math.random();
     
-    this.chartData = _chartData;
+    //this.chartData = _chartData;
     this.primaryXAxis = {
       majorGridLines: { width : 0 },
       maximumLabels: 1,
@@ -2352,10 +2358,24 @@ export class LinechartComponent implements OnInit {
     };
 
     this.background = 'rgba(255, 255, 255, 0)';
-  }
 
-  public deleteArticle(data:any):void {
-
+    this.quoteService.getQuotes(['APPL'])
+            .pipe(first())
+            .subscribe(
+                data => {
+                  this.chartData = data;
+                  //chart.series[0].dataSource = data;
+                  //chart.refresh();
+                },
+                error => {
+                    
+                });
+    /*
+    interval(2000).pipe(
+        startWith(0),
+        switchMap(() => this.http.get(backendUrl.quotesService.getQuotes, { params: { } }))
+    );
+    */
   }
 
 }

@@ -1,4 +1,4 @@
-package com.project.user.administration;
+package com.agoramati.user.administration;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

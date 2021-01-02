@@ -1,4 +1,4 @@
-package com.project.user.administration.vo;
+package com.agoramati.user.administration.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserTokenResponseVo {
+public class UserAuthorizeResponseVo {
     private String username;
-    private String token;
+    private boolean isValid;
 }

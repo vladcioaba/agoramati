@@ -10,8 +10,6 @@ export class DashboardComponent implements OnInit {
 
     public dataSource: Object = [
         { id: '1' },
-        { id: '2' },
-        { id: '3' },
     ];
 
     public fields: Object = { groupBy: 'id' };

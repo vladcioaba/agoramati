@@ -1,17 +1,17 @@
-package com.project.user.administration.services;
+package com.agoramati.user.administration.services;
 
+import com.agoramati.user.administration.model.User;
+import com.agoramati.user.administration.model.UserLogin;
+import com.agoramati.user.administration.repository.UserLoginRepository;
+import com.agoramati.user.administration.repository.UserRepository;
+import com.agoramati.user.administration.vo.UserAuthorizeResponseVo;
+import com.agoramati.user.administration.vo.UserRequestVo;
+import com.agoramati.user.administration.vo.UserTokenResponseVo;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.project.user.administration.model.User;
-import com.project.user.administration.model.UserLogin;
-import com.project.user.administration.repository.UserRepository;
-import com.project.user.administration.repository.UserLoginRepository;
-import com.project.user.administration.vo.UserAuthorizeResponseVo;
-import com.project.user.administration.vo.UserRequestVo;
-import com.project.user.administration.vo.UserTokenResponseVo;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

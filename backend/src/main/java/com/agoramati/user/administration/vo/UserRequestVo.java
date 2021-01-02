@@ -1,4 +1,4 @@
-package com.project.user.administration.vo;
+package com.agoramati.user.administration.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
