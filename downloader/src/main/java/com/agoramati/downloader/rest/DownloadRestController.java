@@ -37,8 +37,11 @@ public class DownloadRestController {
     public List<TickerResultVO> getQuotesForSymbols(@RequestBody List<String> symbols) {
         List<TickerResultVO> retur = null;
         JSONObject json = null;
+        System.out.println(
+            "getQuotesForSymbols " + symbols);
+
         try {
-            String symbol = "AAPL";
+            String symbol = symbols.get(0);
             String range = "1/day";
             String date1 = "2020-06-01";
             String date2 = "2020-06-17";

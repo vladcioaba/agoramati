@@ -1,6 +1,6 @@
 ﻿import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -10,6 +10,15 @@ import { ListViewModule } from '@syncfusion/ej2-angular-lists';
 import { ButtonModule  } from '@syncfusion/ej2-angular-buttons';
 
 import { MatIconModule } from '@angular/material/icon';
+
+import { 
+	IgxAvatarModule,
+	IgxFilterModule,
+	IgxIconModule,
+	IgxListModule,
+	IgxInputGroupModule,
+	IgxButtonGroupModule
+ } from "igniteui-angular";
 
 // used to create fake backend
 import { fakeBackendProvider } from './helpers';
@@ -28,6 +37,7 @@ import { AlertComponent, LinechartComponent } from './components';
     imports: [
         BrowserModule,
         ReactiveFormsModule,
+        FormsModule,
         HttpClientModule,
         appRoutingModule,
         BrowserAnimationsModule, 
@@ -35,6 +45,12 @@ import { AlertComponent, LinechartComponent } from './components';
         ListViewModule,
         ButtonModule,
         MatIconModule,
+        IgxAvatarModule,
+		IgxFilterModule,
+		IgxIconModule,
+		IgxListModule,
+		IgxInputGroupModule,
+		IgxButtonGroupModule
     ],
     declarations: [
         AppComponent,

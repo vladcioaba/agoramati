@@ -1,5 +1,26 @@
-<ejs-listview id='List' [dataSource]='dataSource' cssClass='e-list-template' [fields]='fields'>
-    <ng-template #template let-dataSource="">
-        <linechart></linechart>
-    </ng-template>
-</ejs-listview>
+<div class="timeframe-chooser">
+    <igx-buttongroup [values]="displayTimeframe" (onSelect)="selectTimeframe($event)"></igx-buttongroup>
+</div>
+
+<igx-input-group type="search" class="search">
+    <igx-prefix>
+        <igx-icon>search</igx-icon>
+    </igx-prefix>
+    <input #search igxInput placeholder="Search Tickers" [(ngModel)]="searchItem">
+    <igx-suffix *ngIf="search.value.length > 0" (click)="searchItem = null">
+        <igx-icon>clear</igx-icon>
+    </igx-suffix>
+</igx-input-group>
+
+<div class="list-sample">
+    <igx-list [displayDensity]="compact">
+        <igx-list-item isHeader="true">Items</igx-list-item>
+        <igx-list-item igxRipple igxRippleTarget=".igx-list__item-content" #item *ngFor="let item of items | igxFilter: filterItems;">
+            <igx-avatar igxListThumbnail [src]="item.photo" roundShape="true"></igx-avatar>
+            <linechart [ticker]='item.ticker'></linechart>
+            <span igxListLineTitle>{{ item.ticker }}</span>
+            <span igxListLineSubTitle>{{ item.lastgrowth }}</span>
+            <igx-icon igxListAction [color]="item.isFavorite ? 'orange' : 'lightgray'" (click)="toggleFavorite(item)">star</igx-icon>
+        </igx-list-item>
+    </igx-list>
+</div>
