@@ -10,19 +10,19 @@ export class DashboardComponent implements OnInit {
         isFavorite: false,
         ticker: "AAPL",
         lastgrowth: "15%",
-        photo: "https://www.infragistics.com/angular-demos/assets/images/men/27.jpg"
+        photo: "https://etoro-cdn.etorostatic.com/market-avatars/aapl/150x150.png"
       },
       {
         isFavorite: true,
         ticker: "TSLA",
         lastgrowth: "5%",
-        photo: "https://www.infragistics.com/angular-demos/assets/images/men/1.jpg"
+        photo: "https://etoro-cdn.etorostatic.com/market-avatars/tsla/150x150.png"
       },
       {
         isFavorite: false,
         ticker: "NIO",
         lastgrowth: "8%",
-        photo: "https://www.infragistics.com/angular-demos/assets/images/women/50.jpg"
+        photo: "https://etoro-cdn.etorostatic.com/market-avatars/4489/150x150.png"
       }
     ];
   
