@@ -1,77 +1,103 @@
 package com.agoramati.downloader.vo;
 
 public class TickerResultVO {
-    private Double vw;
-    private Double c;
-    private Long t;
-    private Double v;
-    private Double h;
-    private Double l;
-    private Long n;
+    private String ticker;
+    private String name;
+    private String market;
+    private String locale;
+    private String currency;
+    private Boolean active;
+    private String primaryExch;
+    private String type;
+    private CodesResultVO codes;
+    private String updated;
+    private String url;
 
-    public Double getVw() {
-        return vw;
+    public String getTicker() {
+        return ticker;
     }
 
-    public void setVw(Double vw) {
-        this.vw = vw;
+    public void setTicker(String ticker) {
+        this.ticker = ticker;
     }
 
-    public Double getC() {
-        return c;
+    public String getName() {
+        return name;
     }
 
-    public void setC(Double c) {
-        this.c = c;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Long getT() {
-        return t;
+    public String getMarket() {
+        return market;
     }
 
-    public void setT(Long t) {
-        this.t = t;
+    public void setMarket(String market) {
+        this.market = market;
     }
 
-    public Double getV() {
-        return v;
+    public String getLocale() {
+        return locale;
     }
 
-    public void setV(Double v) {
-        this.v = v;
+    public void setLocale(String locale) {
+        this.locale = locale;
     }
 
-    public Double getH() {
-        return h;
+    public String getCurrency() {
+        return currency;
     }
 
-    public void setH(Double h) {
-        this.h = h;
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
-    public Double getL() {
-        return l;
+    public Boolean getActive() {
+        return active;
     }
 
-    public void setL(Double l) {
-        this.l = l;
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
-    public Long getN() {
-        return n;
+    public String getPrimaryExch() {
+        return primaryExch;
     }
 
-    public void setN(Long n) {
-        this.n = n;
+    public void setPrimaryExch(String primaryExch) {
+        this.primaryExch = primaryExch;
     }
 
-    public Double getO() {
-        return o;
+    public String getType() {
+        return type;
     }
 
-    public void setO(Double o) {
-        this.o = o;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    private Double o;
+    public CodesResultVO getCodes() {
+        return codes;
+    }
+
+    public void setCodes(CodesResultVO codes) {
+        this.codes = codes;
+    }
+
+    public String getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(String updated) {
+        this.updated = updated;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 }
