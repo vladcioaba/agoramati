@@ -32,26 +32,9 @@ public class UserService {
     @Autowired
     UserLoginRepository userLoginRepository;
 
-    public UserRequestVo findByUserId(Long userId) {
 
-        User user = userRepository.findByUserId(userId);
+    public void getWatchList(UserRequestVo request) {
 
-        return UserRequestVo.builder()
-                .username(user.getUserName())
-                .email(user.getEmail())
-                .build();
-    }
-
-    public List<UserRequestVo> getAllUsers() {
-        List<UserRequestVo> usersVo = new ArrayList<>();
-        List<User> users = userRepository.findAll();
-        for (User u : users) {
-            usersVo.add(UserRequestVo.builder()
-                    .username(u.getUserName())
-                    .email(u.getEmail())
-                    .build());
-        }
-        return usersVo;
     }
 
     public void registerNewUser(UserRequestVo userRequestVo) {
@@ -129,7 +112,10 @@ public class UserService {
 
         // check user-login in database
         if(userLogin != null){
-            return new UserAuthorizeResponseVo(userRequestVo.getUsername(),  verifyToken(userRequestVo.getUsername(),     userRequestVo.getToken()));
+            return new UserAuthorizeResponseVo(
+                            userRequestVo.getUsername(),
+                            verifyToken(userRequestVo.getUsername(),
+                            userRequestVo.getToken()));
         }
         return new UserAuthorizeResponseVo(userRequestVo.getUsername(), false);
     }

@@ -6,9 +6,7 @@ export const backendUrl = {
     getQuotes: `${quotesApi}/getquotes`,
   },
   userService: {
-    deleteuser: `${authApi}/user/`,
-    users: `${authApi}/user/all`,
-    authenticate: `${authApi}/user/authenticate`,
-    register: `${authApi}/user/register`,
+    authenticate: `${authApi}/authenticate`,
+    register: `${authApi}/register`,
   }
 }

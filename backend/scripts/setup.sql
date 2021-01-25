@@ -5,7 +5,6 @@ CREATE   TABLE user_table (
    password varchar(255)
 );
 
-
 CREATE  TABLE user_login (
    user_login_id SERIAL PRIMARY KEY,
    user_id INTEGER REFERENCES user_table(user_id),
@@ -13,29 +12,43 @@ CREATE  TABLE user_login (
    token_expire_time varchar(255)
 );
 
+CREATE TABLE watchlist_table (
+    entry_id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES user_table(user_id),
+    position INTEGER NOT NULL,
+    stock_symbol varchar(255) NOT NULL,
+    stock_name varchar(255) NOT NULL,
+);
 
-INSERT INTO user_table (user_name , email , password)
-VALUES ('razvan', 'razvan@gmail.com', 'razvanPassword');
-
-INSERT INTO user_table (user_name , email , password)
-VALUES('mihai', 'mihai@gmail.com', 'mihaiPassword');
-
-
-INSERT INTO user_table (user_name , email , password)
-VALUES('andrei', 'andrei@gmail.com','AndreisPassword');
-
----------
+CREATE TABLE stock_data (
+    stock_id varchar(255) PRIMARY KEY,
+    stock_avatar varchar(255)
+);
 
 
-CREATE ROLE new_user LOGIN PASSWORD 'new_user_password';
+INSERT INTO stock_data (stock_id , stock_avatar)
+VALUES ('NIO', 'https://etoro-cdn.etorostatic.com/market-avatars/4489/150x150.png');
 
-REVOKE CONNECT ON DATABASE users  FROM PUBLIC;
-GRANT CONNECT on DATABASE users  TO new_user;
+INSERT INTO stock_data (stock_id , stock_avatar)
+VALUES ('TSLA', 'https://etoro-cdn.etorostatic.com/market-avatars/tsla/150x150.png');
 
-GRANT USAGE ON SCHEMA public TO new_user;
+INSERT INTO stock_data (stock_id , stock_avatar)
+VALUES ('APPL', 'https://etoro-cdn.etorostatic.com/market-avatars/aapl/150x150.png');
 
-GRANT ALL PRIVILEGES ON DATABASE users TO new_user;
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO new_user;
-GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO new_user;
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO new_user;
-GRANT SELECT ON ALL TABLES IN SCHEMA public TO new_user;
+--------------
+
+
+CREATE ROLE agoramati_admin LOGIN PASSWORD 'agoramati_admin';
+
+CREATE DATABASE agoramati_db WITH OWNER agoramati_admin;
+
+REVOKE CONNECT ON DATABASE agoramati_db FROM PUBLIC;
+GRANT CONNECT on DATABASE agoramati_db TO agoramati_admin;
+
+GRANT USAGE ON SCHEMA public TO agoramati_admin;
+
+GRANT ALL PRIVILEGES ON DATABASE agoramati_db TO agoramati_admin;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO agoramati_admin;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO agoramati_admin;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO agoramati_admin;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO agoramati_admin;

@@ -163,18 +163,18 @@ let stockChart: StockChart = new StockChart({
 export class LinechartComponent implements OnInit {
   @ViewChild('chart')
   public chart: ChartComponent;
-  @Input() public ticker: String;
+  @Input() public ticker: string;
   
   constructor(private quoteService: QuoteService) {
     
   };
 
-  public symbol!:String
+  public symbol!:string
 
   public primaryXAxis!: Object;
   public primaryYAxis!: Object;
   public chartArea!: Object;
-  public background!: String;
+  public background!: string;
   public chartData!: Object[];
 
   public ngOnInit():void {

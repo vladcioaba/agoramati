@@ -14,8 +14,6 @@ export class QuoteService {
     ) { }
 
     getQuotes(symbols: string[]) {
-//        return this.http.get(backendUrl.quoteService.getFxRate, { params: { primaryCcy, secondaryCcy } }) as Observable<Rate>
-        // return this.http.post(backendUrl.fxTradeService.saveTransaction, transaction) as Observable<any>
         return this.http.post<Quote[]>(`${backendUrl.quotesService.getQuotes}`, symbols);// as Observable<string[]>
     }
 
