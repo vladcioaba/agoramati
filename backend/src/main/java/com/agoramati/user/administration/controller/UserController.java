@@ -1,13 +1,12 @@
 package com.agoramati.user.administration.controller;
 
-import com.agoramati.user.administration.vo.UserAuthorizeResponseVo;
-import com.agoramati.user.administration.vo.UserTokenResponseVo;
+import com.agoramati.user.administration.vo.*;
 import com.agoramati.user.administration.services.UserService;
-import com.agoramati.user.administration.vo.UserRequestVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.util.List;
 
 
 @RestController
@@ -18,23 +17,21 @@ public class UserController {
 
     @CrossOrigin
     @RequestMapping(value = "/watchlist", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-    public void getWatchlist(@RequestBody UserRequestVo userRequestVo) {
-        userService.getWatchList(userRequestVo);
+    public List<WatchlistResponseVo> getWatchlist(@RequestBody WatchlistRequestVo watchlistRequestVo) {
+        return userService.getWatchList(watchlistRequestVo);
     }
 
     @CrossOrigin
     @RequestMapping(value = "/addsymbol", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-    public void addSymbolToWatchlist(@RequestBody UserRequestVo userRequestVo) {
-        userService.getWatchList(userRequestVo);
+    public void addSymbolToWatchlist(@RequestBody WatchlistAddRequestVo watchlistAddVo) {
+        userService.addSymbolToWatchlist(watchlistAddVo);
     }
 
     @CrossOrigin
     @RequestMapping(value = "/removesymbol", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-    public void removeSymbolFromWatchlist(@RequestBody UserRequestVo userRequestVo) {
-        userService.getWatchList(userRequestVo);
+    public void removeSymbolFromWatchlist(@RequestBody WatchlistRemoveVo watchlistRemoveVo) {
+        userService.removeSymbolFromWatchlist(watchlistRemoveVo);
     }
-
-
 
     @CrossOrigin
     @RequestMapping(value = "/register", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")

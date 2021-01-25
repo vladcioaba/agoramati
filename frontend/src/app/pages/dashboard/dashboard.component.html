@@ -13,14 +13,14 @@
 </igx-input-group>
 
 <div class="list-sample">
-    <igx-list [displayDensity]="density">
+    <igx-list #listContainer [displayDensity]="density">
         <igx-list-item isHeader="true">Items</igx-list-item>
         <igx-list-item igxRipple igxRippleTarget=".igx-list__item-content" #item *ngFor="let item of items | igxFilter: filterItems;">
             <igx-avatar igxListThumbnail [src]="item.photo" roundShape="true"></igx-avatar>
             <linechart [ticker]='item.ticker'></linechart>
             <span igxListLineTitle>{{ item.ticker }}</span>
             <span igxListLineSubTitle>{{ item.lastgrowth }}</span>
-            <igx-icon igxListAction [color]="item.isFavorite ? 'orange' : 'lightgray'" (click)="toggleFavorite(item)">star</igx-icon>
+            <igx-icon (onItemClicked)="onDeleteClicked($event)">delete</igx-icon>
         </igx-list-item>
     </igx-list>
 </div>

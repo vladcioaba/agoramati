@@ -2,11 +2,11 @@ package com.agoramati.user.administration.services;
 
 import com.agoramati.user.administration.model.User;
 import com.agoramati.user.administration.model.UserLogin;
+import com.agoramati.user.administration.model.Watchlist;
 import com.agoramati.user.administration.repository.UserLoginRepository;
 import com.agoramati.user.administration.repository.UserRepository;
-import com.agoramati.user.administration.vo.UserAuthorizeResponseVo;
-import com.agoramati.user.administration.vo.UserRequestVo;
-import com.agoramati.user.administration.vo.UserTokenResponseVo;
+import com.agoramati.user.administration.repository.WatchlistRepository;
+import com.agoramati.user.administration.vo.*;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -32,9 +32,39 @@ public class UserService {
     @Autowired
     UserLoginRepository userLoginRepository;
 
+    @Autowired
+    WatchlistRepository watchlistRepository;
 
-    public void getWatchList(UserRequestVo request) {
+    public List<WatchlistResponseVo> getWatchList(WatchlistRequestVo watchlistRequestVo) {
+        List<WatchlistResponseVo> retur = new ArrayList<WatchlistResponseVo>();
+        try {
+            String userName = extractUserNameFromToken(watchlistRequestVo.getToken());
+            UserLogin userLogin = userLoginRepository.findByUserAndToken(userName, watchlistRequestVo.getToken());
+            List<Watchlist> list = watchlistRepository.getWatchlistForUser(userLogin.getUser().getUserId());
+            list.forEach(data -> {
+                retur.add(new WatchlistResponseVo(data.getStockSymbol(), data.getStockName()));
+            });
+        } catch (Exception ex){
+        }
+        return retur;
+    }
 
+    public void addSymbolToWatchlist(WatchlistAddRequestVo addRequestVo) {
+        try {
+            String userName = extractUserNameFromToken(addRequestVo.getToken());
+            UserLogin userLogin = userLoginRepository.findByUserAndToken(userName, addRequestVo.getToken());
+            watchlistRepository.addSymbol(userLogin.getUser().getUserId(), addRequestVo.getSymbol(), addRequestVo.getName());
+        } catch (Exception ex){
+        }
+    }
+
+    public void removeSymbolFromWatchlist(WatchlistRemoveVo watchlistRemoveVo) {
+        try {
+            String userName = extractUserNameFromToken(watchlistRemoveVo.getToken());
+            UserLogin userLogin = userLoginRepository.findByUserAndToken(userName, watchlistRemoveVo.getToken());
+            watchlistRepository.removeSymbol(userLogin.getUser().getUserId(), watchlistRemoveVo.getSymbol());
+        } catch (Exception ex){
+        }
     }
 
     public void registerNewUser(UserRequestVo userRequestVo) {

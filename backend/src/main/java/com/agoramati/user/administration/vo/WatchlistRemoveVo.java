@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class StockDataRequestVo {
-    private String avatar;
+public class WatchlistRemoveVo {
+    private String token;
+    private String symbol;
 }

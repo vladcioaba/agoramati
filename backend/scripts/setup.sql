@@ -14,10 +14,10 @@ CREATE  TABLE user_login (
 
 CREATE TABLE watchlist_table (
     entry_id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES user_table(user_id),
-    position INTEGER NOT NULL,
+    user_id SERIAL REFERENCES user_table(user_id),
+    pos INTEGER NOT NULL,
     stock_symbol varchar(255) NOT NULL,
-    stock_name varchar(255) NOT NULL,
+    stock_name varchar(255) NOT NULL
 );
 
 --------------

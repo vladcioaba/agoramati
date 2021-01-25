@@ -72,8 +72,8 @@ public class DownloadRestController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/getsymbolsavatar", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-    public List<AvatarResponseVO> getAvatarForSymbols(@RequestBody List<String> userRequestVo) {
+    @RequestMapping(value = "/getsymbolavatars", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    public List<AvatarResponseVO> getSymbolAvatars(@RequestBody List<String> userRequestVo) {
         List<AvatarResponseVO> list = new ArrayList<AvatarResponseVO>();
         userRequestVo.forEach(avatarId -> {
             try {

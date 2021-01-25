@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { interval } from "rxjs";
 import {startWith, switchMap} from "rxjs/operators";
 import { backendUrl } from '../constants';
-import { Quote } from 'src/app/models';
+import { Avatar, Quote } from 'src/app/models';
 
 @Injectable({ providedIn: 'root' })
 export class QuoteService {
@@ -17,6 +17,9 @@ export class QuoteService {
         return this.http.post<Quote[]>(`${backendUrl.quotesService.getQuotes}`, symbols);// as Observable<string[]>
     }
 
+    getSymbolAvatars(symbols: string[]) {
+        return this.http.post<Avatar[]>(`${backendUrl.quotesService.getSymbolAvatars}`, symbols);// as Observable<string[]>
+    }
 /*
     getFxRatePolling(primaryCcy: string, secondaryCcy: string) {
         return interval(2000)

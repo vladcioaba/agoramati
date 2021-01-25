@@ -5,9 +5,9 @@ export const backendUrl = {
   quotesService: {
     getQuotes: `${quotesApi}/getquotes`,
     searchSymbol: `${quotesApi}/searchsymbol`,
-    addSymbol: `${userApi}/addsymbol`,
-    removeSymbol: `${userApi}/removesymbol`,
-    getSymbolsAvatar: `${userApi}/getsymbolsavatar`,
+    addSymbol: `${quotesApi}/addsymbol`,
+    removeSymbol: `${quotesApi}/removesymbol`,
+    getSymbolAvatars: `${quotesApi}/getsymbolavatars`,
   },
   userService: {
     authenticate: `${userApi}/authenticate`,
