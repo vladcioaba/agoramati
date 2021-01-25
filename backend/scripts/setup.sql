@@ -20,21 +20,6 @@ CREATE TABLE watchlist_table (
     stock_name varchar(255) NOT NULL,
 );
 
-CREATE TABLE stock_data (
-    stock_id varchar(255) PRIMARY KEY,
-    stock_avatar varchar(255)
-);
-
-
-INSERT INTO stock_data (stock_id , stock_avatar)
-VALUES ('NIO', 'https://etoro-cdn.etorostatic.com/market-avatars/4489/150x150.png');
-
-INSERT INTO stock_data (stock_id , stock_avatar)
-VALUES ('TSLA', 'https://etoro-cdn.etorostatic.com/market-avatars/tsla/150x150.png');
-
-INSERT INTO stock_data (stock_id , stock_avatar)
-VALUES ('APPL', 'https://etoro-cdn.etorostatic.com/market-avatars/aapl/150x150.png');
-
 --------------
 
 

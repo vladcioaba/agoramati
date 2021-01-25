@@ -23,6 +23,20 @@ public class UserController {
     }
 
     @CrossOrigin
+    @RequestMapping(value = "/addsymbol", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    public void addSymbolToWatchlist(@RequestBody UserRequestVo userRequestVo) {
+        userService.getWatchList(userRequestVo);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/removesymbol", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    public void removeSymbolFromWatchlist(@RequestBody UserRequestVo userRequestVo) {
+        userService.getWatchList(userRequestVo);
+    }
+
+
+
+    @CrossOrigin
     @RequestMapping(value = "/register", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public void registerNewUser(@RequestBody UserRequestVo userRequestVo) {
         userService.registerNewUser(userRequestVo);

@@ -1,11 +1,9 @@
 package com.agoramati.downloader.service;
 
-import com.agoramati.downloader.repo.QuotesRepository;
+import com.agoramati.downloader.repository.QuotesRepository;
 import com.agoramati.downloader.vo.PolygonAggsTickerResultVO;
 import com.agoramati.downloader.vo.TickerQuoteResultVO;
-import com.agoramati.downloader.vo.TickerResultVO;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.net.URI;

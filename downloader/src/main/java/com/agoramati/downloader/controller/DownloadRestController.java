@@ -1,27 +1,29 @@
-package com.agoramati.downloader.rest;
+package com.agoramati.downloader.controller;
 
-import com.agoramati.downloader.repo.QuotesRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.agoramati.downloader.vo.PolygonAggsTickerResultVO;
+import com.agoramati.downloader.model.AvatarData;
+import com.agoramati.downloader.repository.AvatarRepository;
+import com.agoramati.downloader.repository.QuotesRepository;
+import com.agoramati.downloader.vo.AvatarResponseVO;
 import com.agoramati.downloader.vo.TickerQuoteResultVO;
 import com.agoramati.downloader.vo.PolygonSearchResultVO;
 import com.agoramati.downloader.vo.TickerResultVO;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
 public class DownloadRestController {
     QuotesRepository quotesRepository = null;
+
+    @Autowired
+    private AvatarRepository avatarRepository;
 
     public DownloadRestController() {
         System.out.println("DownloadRestController");
@@ -67,6 +69,21 @@ public class DownloadRestController {
         }
 
         return retur;
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/getsymbolsavatar", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    public List<AvatarResponseVO> getAvatarForSymbols(@RequestBody List<String> userRequestVo) {
+        List<AvatarResponseVO> list = new ArrayList<AvatarResponseVO>();
+        userRequestVo.forEach(avatarId -> {
+            try {
+                final AvatarData data = avatarRepository.getAvatarData(avatarId);
+                list.add(new AvatarResponseVO(data.getAvatarId(), data.getAvatarUrl()));
+            } catch (Exception e) {
+                System.out.println("Error avatarId " + avatarId + " not found!");
+            }
+        });
+        return list;
     }
 
     @CrossOrigin
