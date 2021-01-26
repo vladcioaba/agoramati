@@ -1,41 +1,87 @@
-import { Component, ElementRef, Input, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { IgxFilterOptions } from "igniteui-angular";
-import { first } from 'rxjs/operators';
-import { QuoteService } from '../../services/quote.service';
-import { Avatar } from '../../models';
+import { Component, Input, OnInit, Pipe, PipeTransform } from '@angular/core';
+import { ConnectedPositioningStrategy, IgxFilterOptions, VerticalAlignment } from "igniteui-angular";
+import { debounceTime, distinctUntilChanged, first } from 'rxjs/operators';
+import { Avatar, Symbol } from '../../models';
+import { QuoteService, WatchlistService, AuthenticationService } from 'src/app/services';
+import { Subject, Subscription } from 'rxjs';
 
 @Component({templateUrl: './dashboard.component.html', styleUrls: [ './dashboard.component.scss' ]})
 export class DashboardComponent implements OnInit {
-    public searchItem: string;
+    public symbolResults = [];
+
+    private _searchItem: string;
+    private _timerId;
+
+    @Input() set searchItem(value: string) {
+        this._searchItem = value;
+        clearTimeout(this._timerId);
+        this._timerId = setTimeout( ()=>{
+            console.log("searchItem " + value);
+            if (value && value.length > 0) {
+                this.findTickerByName(value);
+            }
+        }, 1500);
+    }
     
+    get searchItem(): string {    
+        return this._searchItem;
+    }
+
+    private _symbolResultSelected:Symbol;
+
+    @Input() set symbolResultSelected(value: Symbol) {
+        this._symbolResultSelected = value;
+        console.log("symbolResultSelected " + value);
+        //add to list and reload
+        let newItems = this.items;
+        newItems.push({
+            isFavorite: false,
+            ticker: value.ticker,
+            name: value.name,
+            photo: "assets/img/default_avatar.png"
+        });
+        let token = this.authenticationService.currentUserValue.token;
+        this.watchlistService.addSymbolFromWatchlist({"token": token, "symbol": value.ticker, "name": value.name})
+            .pipe(first())
+            .subscribe(
+                data => {
+                    this.reloadList(newItems);
+                },
+                error => {
+                    console.log("e " + error)
+                });
+        this.quoteService.addsymbol(value.ticker)
+            .pipe(first())
+            .subscribe(
+                data => {
+                },
+                error => {
+                    console.log("e " + error)
+                });
+    }
+    
+    get symbolResultSelected(): Symbol {    
+        return this._symbolResultSelected;
+    }
+
     @Input()
-    public items = [
-      {
-        isFavorite: false,
-        ticker: "AAPL",
-        lastgrowth: "15%",
-        photo: "assets/img/default_avatar.png"
-      },
-      {
-        isFavorite: true,
-        ticker: "TSLA",
-        lastgrowth: "5%",
-        photo: "assets/img/default_avatar.png"
-      },
-      {
-        isFavorite: false,
-        ticker: "NIO",
-        lastgrowth: "8%",
-        photo: "assets/img/default_avatar.png"
-      }
-    ];
+    public items = [];
   
     public density = "comfortable";
     public displayTimeframe;
-    public symbols = ['NIO', 'TSLA', 'AAPL'];
-  
 
-    constructor(private quoteService: QuoteService) { }
+    public settings = {
+        positionStrategy: new ConnectedPositioningStrategy({
+            closeAnimation: null,
+            openAnimation: null,
+            verticalDirection: VerticalAlignment.Bottom,
+            verticalStartPoint: VerticalAlignment.Bottom
+        })
+    };
+
+    constructor(private quoteService: QuoteService,
+                private watchlistService: WatchlistService,
+                private authenticationService: AuthenticationService) { }
   
     public ngOnInit() {
         this.density = 'compact';
@@ -46,44 +92,108 @@ export class DashboardComponent implements OnInit {
             { label: "6 M", selected: false, togglable: true },
             { label: "12 M", selected: false, togglable: true }
         ];
-        this.quoteService.getSymbolAvatars(this.symbols)
-            .pipe(first())
-            .subscribe(
+
+        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        let token = this.authenticationService.currentUserValue.token;
+        console.log(token);
+        this.watchlistService.getWatchlist({"token": token})
+            .pipe(first()).subscribe(
                 data => {
-                  for (var avatar of data) {
-                    for (var item of this.items) {
-                      if (avatar.avatarId == item.photo) {
-                        item.photo = avatar.avatarUrl;
-                      }
-                    }
-                  }
-                  
-                  // this.items.push({isFavorite: false,
-                  //   ticker: "NIO",
-                  //   lastgrowth: "8%",
-                  //   photo: "assets/img/default_avatar.png"})
+                    let newData = []; 
+                    data.forEach(item => {
+                        newData.push({
+                            isFavorite: false,
+                            ticker: item.stockId,
+                            name: item.stockName,
+                            photo: "assets/img/default_avatar.png"
+                        });
+                    });
+                    this.reloadList(newData); 
                 },
-                error => {
-                    
-                });
+                error => { console.log("e " + error); });
     }
   
+    public ngOnDestroy() {
+    }
+
     public selectTimeframe(event) {
-      
+        console.log("selectTimeframe " + event)
     }
   
     public toggleFavorite(item: any) {
-      item.isFavorite = !item.isFavorite;
+        item.isFavorite = !item.isFavorite;
     }
 
-    public onDeleteClicked(event) {
-      console.log("click " + event)
+    public onDeleteClicked(symbol) {
+        console.log("click " + symbol);
+        let token = this.authenticationService.currentUserValue.token;
+        let newItems = this.items.filter(item => { return item.ticker !== symbol });
+        this.watchlistService.removeSymbolFromWatchlist({"token": token, "symbol": symbol})
+            .pipe(first())
+            .subscribe(
+                data => {
+                    this.reloadList(newItems);
+                },
+                error => {
+                    console.log("e " + error)
+                });
+        this.quoteService.removeSymbol(symbol)
+            .pipe(first())
+            .subscribe(
+                data => {
+                },
+                error => {
+                    console.log("e " + error)
+                });
     }
   
+    public reloadList(data) {
+        this.items = data;
+        let symbols = [];
+        this.items.forEach(item => {     
+            symbols.push(item.ticker);
+        });
+        this.quoteService.getSymbolAvatars(symbols)
+            .pipe(first())
+            .subscribe(
+                data => {
+                    this.items.forEach(item => {
+                        for (var avatar of data) {
+                            if (avatar.avatarId == item.ticker) {
+                                item.photo = avatar.avatarUrl;
+                            }
+                        }
+                    });
+                },
+                error => {
+                    console.log("e " + error);
+                });
+    }
+
+    public onSearchTickers(value) {
+        console.log("onSearchTickers " + value);
+    }
+
+    public findTickerByName(name:string) {
+        this.quoteService.findSymbolByName(name).pipe(first())
+        .subscribe(
+            data => {
+                console.log("d " + data);
+                this.symbolResults = [];
+                data.forEach(symbol => {
+                    console.log(symbol);
+                    this.symbolResults.push(symbol);
+                });
+            },
+            error => {
+                console.log("e " + error);
+            });
+    }
+
     get filterItems() {
-      const fo = new IgxFilterOptions();
-      fo.key = "name";
-      fo.inputValue = this.searchItem;
-      return fo;
+        const fo = new IgxFilterOptions();
+        fo.key = "name";
+        fo.inputValue = this.searchItem;
+        return fo;
     }
 }

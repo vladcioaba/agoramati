@@ -1,3 +1,5 @@
+@import '~igniteui-angular/lib/core/styles/themes/index';
+
 :host {
     display: block;
     padding: 16px;
@@ -51,4 +53,9 @@ igx-icon {
 
 .search {
     margin-bottom: 16px;
+}
+
+.autocomplete {
+  width: 50%;
+  margin-top: 350px;
 }

@@ -20,14 +20,12 @@ import java.util.*;
 
 @RestController
 public class DownloadRestController {
-    QuotesRepository quotesRepository = null;
 
     @Autowired
     private AvatarRepository avatarRepository;
 
     public DownloadRestController() {
         System.out.println("DownloadRestController");
-        quotesRepository = QuotesRepository.getInstance();
     }
 
     @GetMapping("/hello")
@@ -90,21 +88,21 @@ public class DownloadRestController {
     @RequestMapping(value = "/addsymbol", method = RequestMethod.POST, produces = "application/json")
     public void addSymbol(@RequestBody String symbol) {
         System.out.println("addSymbol " + symbol);
-        quotesRepository.addSymbol(symbol);
+        QuotesRepository.getInstance().addSymbol(symbol);
     }
 
     @CrossOrigin
     @RequestMapping(value = "/removesymbol", method = RequestMethod.POST, produces = "application/json")
     public void removeSymbol(@RequestBody String symbol) {
         System.out.println("removeSymbol " + symbol);
-        quotesRepository.removeSymbol(symbol);
+        QuotesRepository.getInstance().removeSymbol(symbol);
     }
 
     @CrossOrigin
     @RequestMapping(value = "/listsymbols", method = RequestMethod.POST, produces = "application/json")
     public List<String> listSymbols() {
         System.out.println("listSymbols");
-        return quotesRepository.listSymbols();
+        return QuotesRepository.getInstance().listSymbols();
     }
 
     @CrossOrigin
@@ -122,10 +120,10 @@ public class DownloadRestController {
             Date parsedDate1 = dateFormat.parse(date1);
             Date parsedDate2 = dateFormat.parse(date2);
 
-            if (quotesRepository.getTimeSeriesForSymbolCount(symbol,
+            if (QuotesRepository.getInstance().getTimeSeriesForSymbolCount(symbol,
                                                         parsedDate1.getTime(),
                                                         parsedDate2.getTime()) > 0) {
-                List<String> ts = quotesRepository.getTimeSeriesForSymbol(symbol,
+                List<String> ts = QuotesRepository.getInstance().getTimeSeriesForSymbol(symbol,
                                                     parsedDate1.getTime(),
                                                     parsedDate2.getTime());
                 System.out.println("getQuotesForSymbols from cache " + symbols);

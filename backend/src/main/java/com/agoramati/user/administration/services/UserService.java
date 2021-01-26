@@ -44,6 +44,8 @@ public class UserService {
             list.forEach(data -> {
                 retur.add(new WatchlistResponseVo(data.getStockSymbol(), data.getStockName()));
             });
+        } catch(JWTVerificationException exception){
+            throw(exception);
         } catch (Exception ex){
             System.out.println("getWatchList " + ex.toString());
         }
@@ -55,6 +57,8 @@ public class UserService {
             String userName = extractUserNameFromToken(addRequestVo.getToken());
             UserLogin userLogin = userLoginRepository.findByUserAndToken(userName, addRequestVo.getToken());
             watchlistRepository.addSymbol(userLogin.getUser().getUserId(), addRequestVo.getSymbol(), addRequestVo.getName());
+        } catch(JWTVerificationException exception){
+           throw(exception);
         } catch (Exception ex){
             System.out.println("addSymbolToWatchlist " + ex.toString());
         }
@@ -65,6 +69,8 @@ public class UserService {
             String userName = extractUserNameFromToken(watchlistRemoveVo.getToken());
             UserLogin userLogin = userLoginRepository.findByUserAndToken(userName, watchlistRemoveVo.getToken());
             watchlistRepository.removeSymbol(userLogin.getUser().getUserId(), watchlistRemoveVo.getSymbol());
+        } catch(JWTVerificationException exception){
+            throw(exception);
         } catch (Exception ex){
             System.out.println("removeSymbolFromWatchlist " + ex.toString());
         }

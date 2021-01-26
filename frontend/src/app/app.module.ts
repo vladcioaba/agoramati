@@ -16,7 +16,9 @@ import {
 	IgxFilterModule,
 	IgxIconModule,
 	IgxListModule,
-	IgxInputGroupModule,
+    IgxInputGroupModule,
+    IgxAutocompleteModule,
+	IgxDropDownModule,
 	IgxButtonGroupModule
  } from "igniteui-angular";
 
@@ -31,7 +33,6 @@ import { LoginComponent } from './pages/login';
 import { RegisterComponent } from './pages/register';
 import { DashboardComponent } from './pages/dashboard';
 import { AlertComponent, LinechartComponent } from './components';
-
 
 @NgModule({
     imports: [
@@ -50,7 +51,9 @@ import { AlertComponent, LinechartComponent } from './components';
 		IgxIconModule,
 		IgxListModule,
 		IgxInputGroupModule,
-		IgxButtonGroupModule
+        IgxButtonGroupModule,
+        IgxAutocompleteModule,
+	    IgxDropDownModule
     ],
     declarations: [
         AppComponent,

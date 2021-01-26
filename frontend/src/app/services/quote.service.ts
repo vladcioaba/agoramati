@@ -20,6 +20,18 @@ export class QuoteService {
     getSymbolAvatars(symbols: string[]) {
         return this.http.post<Avatar[]>(`${backendUrl.quotesService.getSymbolAvatars}`, symbols);// as Observable<string[]>
     }
+
+    findSymbolByName(symbol: string) {
+        return this.http.post<Symbol[]>(`${backendUrl.quotesService.searchSymbol}`, symbol);// as Observable<string[]>
+    }
+
+    addsymbol(symbol: string) {
+        return this.http.post(`${backendUrl.quotesService.addSymbol}`, symbol);// as Observable<string[]>
+    }
+
+    removeSymbol(symbol: string) {
+        return this.http.post(`${backendUrl.quotesService.removeSymbol}`, symbol);// as Observable<string[]>
+    }
 /*
     getFxRatePolling(primaryCcy: string, secondaryCcy: string) {
         return interval(2000)
