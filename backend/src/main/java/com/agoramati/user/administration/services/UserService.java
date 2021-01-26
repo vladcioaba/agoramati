@@ -45,6 +45,7 @@ public class UserService {
                 retur.add(new WatchlistResponseVo(data.getStockSymbol(), data.getStockName()));
             });
         } catch (Exception ex){
+            System.out.println("getWatchList " + ex.toString());
         }
         return retur;
     }
@@ -55,6 +56,7 @@ public class UserService {
             UserLogin userLogin = userLoginRepository.findByUserAndToken(userName, addRequestVo.getToken());
             watchlistRepository.addSymbol(userLogin.getUser().getUserId(), addRequestVo.getSymbol(), addRequestVo.getName());
         } catch (Exception ex){
+            System.out.println("addSymbolToWatchlist " + ex.toString());
         }
     }
 
@@ -64,6 +66,7 @@ public class UserService {
             UserLogin userLogin = userLoginRepository.findByUserAndToken(userName, watchlistRemoveVo.getToken());
             watchlistRepository.removeSymbol(userLogin.getUser().getUserId(), watchlistRemoveVo.getSymbol());
         } catch (Exception ex){
+            System.out.println("removeSymbolFromWatchlist " + ex.toString());
         }
     }
 
