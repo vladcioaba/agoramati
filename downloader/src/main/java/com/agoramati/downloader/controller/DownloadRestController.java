@@ -107,26 +107,21 @@ public class DownloadRestController {
 
     @CrossOrigin
     @RequestMapping(value = "/getquotes", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-    public List<TickerQuoteResultVO> getQuotesForSymbols(@RequestBody List<String> symbols) {
+    public List<TickerQuoteResultVO> getQuotesForSymbols(@RequestBody List<String> query) {
         List<TickerQuoteResultVO> retur = new ArrayList<TickerQuoteResultVO>();
-        System.out.println("getQuotesForSymbols " + symbols);
+        System.out.println("getQuotesForSymbols " + query);
 
         try {
-            String symbol = symbols.get(0);
-            String range = "1/hour";
-            String date1 = "2020-01-01";
-            String date2 = "2021-12-31";
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date parsedDate1 = dateFormat.parse(date1);
-            Date parsedDate2 = dateFormat.parse(date2);
-
+            String symbol = query.get(0);
+            long date1 = Long.parseLong(query.get(1));
+            long date2 = Long.parseLong(query.get(2));
             if (QuotesRepository.getInstance().getTimeSeriesForSymbolCount(symbol,
-                                                        parsedDate1.getTime(),
-                                                        parsedDate2.getTime()) > 0) {
+                                                                            date1,
+                                                                            date2) > 0) {
                 List<String> ts = QuotesRepository.getInstance().getTimeSeriesForSymbol(symbol,
-                                                    parsedDate1.getTime(),
-                                                    parsedDate2.getTime());
-                System.out.println("getQuotesForSymbols from cache " + symbols);
+                                                                            date1,
+                                                                            date2);
+                System.out.println("getQuotesForSymbols from cache " + symbol);
                 ObjectMapper objectMapper = new ObjectMapper();
                 retur = new ArrayList<TickerQuoteResultVO>();
                 for (String str : ts) {

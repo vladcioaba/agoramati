@@ -17,14 +17,18 @@ public interface WatchlistRepository extends JpaRepository<Watchlist, Long> {
     public List<Watchlist> getWatchlistForUser(Long user);
 
     @Modifying
-    @Query(value = "INSERT INTO watchlist_table (user_id, pos, stock_symbol, stock_name) VALUES (:user, 0, :symbol, :name)", nativeQuery = true)
+    @Query(value = "INSERT INTO watchlist_table (user_id, pos, stock_symbol, stock_name) " +
+                    "SELECT :user, 0, :symbol, :name " +
+                    "WHERE :symbol NOT IN (\n" +
+                    "        SELECT stock_symbol FROM watchlist_table WHERE (user_id = :user AND stock_symbol = :symbol)\n" +
+                    ")", nativeQuery = true)
     @Transactional
-    public void addSymbol(@Param("user") Long user,
-                          @Param("symbol") String symbol,
-                          @Param("name") String name);
+    public int addSymbol(@Param("user") Long user,
+                         @Param("symbol") String symbol,
+                         @Param("name") String name);
 
     @Modifying
     @Query("DELETE FROM Watchlist w WHERE w.user.userId = ?1 and w.stockSymbol = ?2")
     @Transactional
-    public void removeSymbol(Long user, String symbol);
+    public int removeSymbol(Long user, String symbol);
 }

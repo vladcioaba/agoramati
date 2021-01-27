@@ -56,7 +56,11 @@ public class UserService {
         try {
             String userName = extractUserNameFromToken(addRequestVo.getToken());
             UserLogin userLogin = userLoginRepository.findByUserAndToken(userName, addRequestVo.getToken());
-            watchlistRepository.addSymbol(userLogin.getUser().getUserId(), addRequestVo.getSymbol(), addRequestVo.getName());
+            int count = watchlistRepository.addSymbol(userLogin.getUser().getUserId(), addRequestVo.getSymbol(), addRequestVo.getName());
+            System.out.println("addSymbolToWatchlist " + count);
+            if (count == 0) {
+                throw new JWTVerificationException("Symbol not added!");
+            }
         } catch(JWTVerificationException exception){
            throw(exception);
         } catch (Exception ex){
@@ -68,7 +72,11 @@ public class UserService {
         try {
             String userName = extractUserNameFromToken(watchlistRemoveVo.getToken());
             UserLogin userLogin = userLoginRepository.findByUserAndToken(userName, watchlistRemoveVo.getToken());
-            watchlistRepository.removeSymbol(userLogin.getUser().getUserId(), watchlistRemoveVo.getSymbol());
+            int count = watchlistRepository.removeSymbol(userLogin.getUser().getUserId(), watchlistRemoveVo.getSymbol());
+            System.out.println("removeSymbolFromWatchlist " + count);
+            if (count == 0) {
+                throw new JWTVerificationException("Symbol not removed!");
+            }
         } catch(JWTVerificationException exception){
             throw(exception);
         } catch (Exception ex){

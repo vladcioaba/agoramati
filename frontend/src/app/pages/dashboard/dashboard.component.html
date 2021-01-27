@@ -16,7 +16,7 @@
 
 <igx-drop-down #tickersPanel maxHeight="300px">
     <igx-drop-down-item *ngFor="let res of symbolResults" (click)="symbolResultSelected = res">
-        <b>{{res.ticker}}</b>  {{res.market}}  {{res.locale}}  {{res.us}}  {{res.currency}}  {{res.name}}
+        <b>{{res.ticker}}</b>  {{res.primaryExch}}  {{res.locale}}  {{res.currency}}  {{res.name}}
     </igx-drop-down-item>
 </igx-drop-down>
 
@@ -27,14 +27,25 @@
 
 <div class="list-sample">
     <igx-list #listContainer [displayDensity]="density">
-        <igx-list-item isHeader="true">Items</igx-list-item>
-        <igx-list-item igxRipple igxRippleTarget=".igx-list__item-content" #item *ngFor="let item of items">
-            <!--igx-icon class="dialog__icon" igxDragHandle>drag_indicator</igx-icon-->
-            <igx-avatar igxListThumbnail [src]="item.photo" roundShape="true"></igx-avatar>
-            <linechart [ticker]='item.ticker'></linechart>
-            <span igxListLineTitle>{{ item.ticker }}</span>
-            <!--span igxListLineSubTitle>{{ item.lastgrowth }}</span-->
-            <igx-icon data-num='item.ticker' (click)="onDeleteClicked(item.ticker)">delete</igx-icon>
-        </igx-list-item>
+        <igx-list-item isHeader="true">Items: {{items.length}}</igx-list-item>
+        <div [style.height]="'500px'" [style.overflow]="'hidden'" [style.position]="'relative'">
+            <igx-list-item 
+                [style.width]="'calc(100% - 18px)'"
+                #item 
+                igxRipple="pink"
+                igxRippleTarget=".igx-list__item-container"
+                *igxFor="let item of items; scrollOrientation : 'vertical'; containerSize: '500px'; itemSize: '50px'">
+                <!--igx-icon class="dialog__icon" igxDragHandle>drag_indicator</igx-icon-->
+                <igx-avatar igxListThumbnail [src]="item.photo" roundShape="true"></igx-avatar>
+                <linechart [ticker]='item.ticker'></linechart>
+                <span igxListLineTitle>{{ item.ticker }}</span>
+                <span igxListLineTitle>{{ item.primaryExch }}</span>
+                <span igxListLineTitle>{{ item.locale }}</span>
+                <span igxListLineTitle>{{ item.currency }}</span>
+                <span igxListLineTitle>{{ item.name }}</span>
+                <!--span igxListLineSubTitle>{{ item.lastgrowth }}</span-->
+                <igx-icon data-num='item.ticker' (click)="onDeleteClicked(item.ticker)">delete</igx-icon>
+            </igx-list-item>
+        </div>
     </igx-list>
 </div>

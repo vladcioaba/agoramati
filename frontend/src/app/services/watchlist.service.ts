@@ -12,7 +12,7 @@ export class WatchlistService {
         return this.http.post<WatchlistData[]>(`${backendUrl.userService.watchlist}`, userToken);
     }
 
-    addSymbolFromWatchlist(newSymbol) {
+    addSymbolToWatchlist(newSymbol) {
         return this.http.post(`${backendUrl.userService.addSymbol}`, newSymbol);
     }
 

@@ -19,7 +19,9 @@ import {
     IgxInputGroupModule,
     IgxAutocompleteModule,
 	IgxDropDownModule,
-	IgxButtonGroupModule
+    IgxButtonGroupModule,
+    IgxRippleModule,
+	IgxForOfModule
  } from "igniteui-angular";
 
 // used to create fake backend
@@ -53,7 +55,9 @@ import { AlertComponent, LinechartComponent } from './components';
 		IgxInputGroupModule,
         IgxButtonGroupModule,
         IgxAutocompleteModule,
-	    IgxDropDownModule
+        IgxDropDownModule,
+        IgxRippleModule,
+        IgxForOfModule
     ],
     declarations: [
         AppComponent,

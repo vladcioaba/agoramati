@@ -5,7 +5,7 @@ import { Avatar, Symbol } from '../../models';
 import { QuoteService, WatchlistService, AuthenticationService } from 'src/app/services';
 import { Subject, Subscription } from 'rxjs';
 
-@Component({templateUrl: './dashboard.component.html', styleUrls: [ './dashboard.component.scss' ]})
+@Component({selector: "igxFor-list", templateUrl: './dashboard.component.html', styleUrls: [ './dashboard.component.scss' ]})
 export class DashboardComponent implements OnInit {
     public symbolResults = [];
 
@@ -15,7 +15,7 @@ export class DashboardComponent implements OnInit {
     @Input() set searchItem(value: string) {
         this._searchItem = value;
         clearTimeout(this._timerId);
-        this._timerId = setTimeout( ()=>{
+        this._timerId = setTimeout( () => {
             console.log("searchItem " + value);
             if (value && value.length > 0) {
                 this.findTickerByName(value);
@@ -30,10 +30,11 @@ export class DashboardComponent implements OnInit {
     private _symbolResultSelected:Symbol;
 
     @Input() set symbolResultSelected(value: Symbol) {
+        this.symbolResults = []
         this._symbolResultSelected = value;
         console.log("symbolResultSelected " + value);
         //add to list and reload
-        let newItems = this.items;
+        var newItems = this.items.slice();
         newItems.push({
             isFavorite: false,
             ticker: value.ticker,
@@ -41,23 +42,22 @@ export class DashboardComponent implements OnInit {
             photo: "assets/img/default_avatar.png"
         });
         let token = this.authenticationService.currentUserValue.token;
-        this.watchlistService.addSymbolFromWatchlist({"token": token, "symbol": value.ticker, "name": value.name})
+        this.watchlistService.addSymbolToWatchlist({"token": token, "symbol": value.ticker, "name": value.name})
             .pipe(first())
             .subscribe(
                 data => {
+                    console.log("d1 " + data)
                     this.reloadList(newItems);
+                    this.quoteService.addsymbol(value.ticker)
+                    .pipe(first())
+                    .subscribe(
+                        data => {
+                        },
+                        error => {
+                            console.log("e " + error)
+                        });
                 },
-                error => {
-                    console.log("e " + error)
-                });
-        this.quoteService.addsymbol(value.ticker)
-            .pipe(first())
-            .subscribe(
-                data => {
-                },
-                error => {
-                    console.log("e " + error)
-                });
+                error => { console.log("e " + error) });       
     }
     
     get symbolResultSelected(): Symbol {    
@@ -178,7 +178,7 @@ export class DashboardComponent implements OnInit {
         this.quoteService.findSymbolByName(name).pipe(first())
         .subscribe(
             data => {
-                console.log("d " + data);
+                //console.log("d " + data);
                 this.symbolResults = [];
                 data.forEach(symbol => {
                     console.log(symbol);
@@ -190,10 +190,10 @@ export class DashboardComponent implements OnInit {
             });
     }
 
-    get filterItems() {
+    public filterItems(list) {
         const fo = new IgxFilterOptions();
         fo.key = "name";
-        fo.inputValue = this.searchItem;
+        fo.inputValue = list;
         return fo;
     }
 }
