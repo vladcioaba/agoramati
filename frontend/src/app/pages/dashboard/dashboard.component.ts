@@ -1,11 +1,13 @@
-import { Component, Input, OnInit, Pipe, PipeTransform } from '@angular/core';
+import { Component, Input, OnInit, Pipe, PipeTransform, ViewEncapsulation } from '@angular/core';
 import { ConnectedPositioningStrategy, IgxFilterOptions, VerticalAlignment } from "igniteui-angular";
 import { debounceTime, distinctUntilChanged, first } from 'rxjs/operators';
 import { Avatar, Symbol } from '../../models';
 import { QuoteService, WatchlistService, AuthenticationService } from 'src/app/services';
 import { Subject, Subscription } from 'rxjs';
 
-@Component({selector: "igxFor-list", templateUrl: './dashboard.component.html', styleUrls: [ './dashboard.component.scss' ]})
+@Component({selector: "igxFor-list", 
+            templateUrl: './dashboard.component.html', 
+            styleUrls: [ './dashboard.component.scss' ]})
 export class DashboardComponent implements OnInit {
     public symbolResults = [];
 
@@ -45,13 +47,13 @@ export class DashboardComponent implements OnInit {
         this.watchlistService.addSymbolToWatchlist({"token": token, "symbol": value.ticker, "name": value.name})
             .pipe(first())
             .subscribe(
-                data => {
-                    console.log("d1 " + data)
+                data => {                    
                     this.reloadList(newItems);
                     this.quoteService.addsymbol(value.ticker)
                     .pipe(first())
                     .subscribe(
                         data => {
+                            console.log("addSymbolToWatchlist  " + this.authenticationService.currentUserValue.username + " " + value.ticker)
                         },
                         error => {
                             console.log("e " + error)

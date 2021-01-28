@@ -109,7 +109,7 @@ public class DownloadRestController {
     @RequestMapping(value = "/getquotes", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public List<TickerQuoteResultVO> getQuotesForSymbols(@RequestBody List<String> query) {
         List<TickerQuoteResultVO> retur = new ArrayList<TickerQuoteResultVO>();
-        System.out.println("getQuotesForSymbols " + query);
+        // System.out.println("getQuotesForSymbols " + query);
 
         try {
             String symbol = query.get(0);
@@ -121,7 +121,7 @@ public class DownloadRestController {
                 List<String> ts = QuotesRepository.getInstance().getTimeSeriesForSymbol(symbol,
                                                                             date1,
                                                                             date2);
-                System.out.println("getQuotesForSymbols from cache " + symbol);
+                // System.out.println("getQuotesForSymbols from cache " + symbol);
                 ObjectMapper objectMapper = new ObjectMapper();
                 retur = new ArrayList<TickerQuoteResultVO>();
                 for (String str : ts) {
@@ -129,7 +129,7 @@ public class DownloadRestController {
                     retur.add(data);
                 }
             } else {
-                //@TODO submit to priority
+                QuotesRepository.getInstance().addPrioritySymbol(symbol);
             }
         }
         catch (Exception e) {

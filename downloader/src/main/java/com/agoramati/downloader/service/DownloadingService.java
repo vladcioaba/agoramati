@@ -53,6 +53,41 @@ public class DownloadingService {
     private AtomicInteger counter = new AtomicInteger();
 
     public boolean execute() {
+
+        List<String> listPrioritySymbols = quotesRepository.listSymbols();
+        System.out.println("Downloading priority symbols " + listPrioritySymbols);
+
+        listPrioritySymbols.forEach(symbol -> {
+            if (quotesRepository.isSymbolStillValid(symbol)) {
+                try {
+                    String range = "1/hour";
+                    String strDateStart = quotesRepository.getLastUpdateForSymbol(symbol);
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    String strDateEnd = simpleDateFormat.format(new Timestamp(System.currentTimeMillis()));
+                    System.out.println("Downloading " + symbol + " " + strDateStart + " " + strDateEnd);
+                    List<TickerQuoteResultVO> listTickers = download(symbol, range, strDateStart, strDateEnd);
+                    System.out.println("Downloaded size " + listTickers.size());
+                    quotesRepository.addTimeSeriesForSymbol(symbol, listTickers);
+                    quotesRepository.removePrioritySymbol(symbol);
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (counter.incrementAndGet() == 5) {
+                    counter.set(0);
+                    try {
+                        System.out.println("Downloading limit reached.");
+                        Thread.sleep(60000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
         List<String> listSymbols = quotesRepository.listSymbols();
         System.out.println("Downloading symbols " + listSymbols);
 

@@ -1,5 +1,5 @@
-<ejs-chart #chart [primaryXAxis]='primaryXAxis' [primaryYAxis]='primaryYAxis' [chartArea]='chartArea' [background]='background' width='500' height='120'>
+<ejs-chart #chart [enableCanvas]='enableCanvas' [primaryXAxis]='primaryXAxis' [primaryYAxis]='primaryYAxis' [chartArea]='chartArea' [background]='background' width='500' height='120'>
     <e-series-collection>
-        <e-series [dataSource]='chartData' type='Line' xName='t' yName='c' width=3 fill='green'></e-series>
+        <e-series [dataSource]='chartData' [animation]='animation' type='Line' xName='t' yName='c' width=2 fill='blue'></e-series>
     </e-series-collection>
 </ejs-chart>

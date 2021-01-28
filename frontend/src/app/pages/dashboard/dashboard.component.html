@@ -28,13 +28,13 @@
 <div class="list-sample">
     <igx-list #listContainer [displayDensity]="density">
         <igx-list-item isHeader="true">Items: {{items.length}}</igx-list-item>
-        <div [style.height]="'500px'" [style.overflow]="'hidden'" [style.position]="'relative'">
+        <div [style.height]="'600px'" [style.overflow]="'scroll'" [style.position]="'relative'" [style.overflow-x]="'hidden'">
             <igx-list-item 
-                [style.width]="'calc(100% - 18px)'"
+                [style.width]="'calc(100%)'"
                 #item 
                 igxRipple="pink"
                 igxRippleTarget=".igx-list__item-container"
-                *igxFor="let item of items; scrollOrientation : 'vertical'; containerSize: '500px'; itemSize: '50px'">
+                *igxFor="let item of items;">
                 <!--igx-icon class="dialog__icon" igxDragHandle>drag_indicator</igx-icon-->
                 <igx-avatar igxListThumbnail [src]="item.photo" roundShape="true"></igx-avatar>
                 <linechart [ticker]='item.ticker'></linechart>

@@ -13,8 +13,8 @@ export class QuoteService {
         private http: HttpClient
     ) { }
 
-    getQuotes(symbols: string[]) {
-        return this.http.post<Quote[]>(`${backendUrl.quotesService.getQuotes}`, symbols);// as Observable<string[]>
+    getQuotes(symbol: string[]) {
+        return this.http.post<Quote[]>(`${backendUrl.quotesService.getQuotes}`, symbol);// as Observable<string[]>
     }
 
     getSymbolAvatars(symbols: string[]) {
